@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Spectrum Ownership Updater</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="logo.png" type="image/png">
+</head>
+
+<body>
+    <header>
+        <h1>Spectrum Ownership Updater</h1>
+    </header>
+
+    <main class="container" role="main">
+        <form id="upload-form" method="post" aria-label="Upload CSV for Update">
+            <fieldset>
+                <legend>Upload Files</legend>
+
+                <div class="form-group">
+                    <label for="main-file">Main CSV File:</label>
+                    <input type="file" id="main-file" accept=".csv" required>
+                </div>
+
+                <!-- Input fields for modification -->
+                <div class="form-group">
+                    <label for="new-value">New Holder:</label>
+                    <input type="text" id="new-value" placeholder="New Value" required>
+                </div>
+                                
+                <div class="form-group">
+                    <label for="row-title">Tiers codes:</label>
+                    <textarea id="row-title" placeholder="Enter Tiers codes, separated by commas, spaces, or new lines." rows="5" required></textarea>
+                </div>
+                                
+                <div class="form-group">
+                    <label for="column-title">Frequency range (MHz):</label>
+                    <textarea id="column-title" placeholder="Enter frequency ranges, separated by commas, spaces, or new lines." rows="5" required></textarea>
+                </div>
+
+                <div class="btn-container">
+                    <button type="submit" id="modify-btn">Modify CSV</button>
+                    <button type="button" id="reset-btn">Reset</button>
+                </div>
+            </fieldset>
+        </form>
+
+        <!-- Progress bar -->
+        <div id="progress-bar">
+            <div id="progress-fill" style="width: 0%;">
+                <span id="progress-percentage">0%</span>
+            </div>
+        </div>
+        <div id="changes-table"></div>
+        <!-- Download button -->
+        <div class="btn-center">
+            <button onclick="document.getElementById('download-link').click();" id="download-btn">Download</button>
+        </div>
+        <!-- Hidden download link -->
+        <a href="#" id="download-link" style="display:none" aria-hidden="true" download>Download Updated File</a>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
