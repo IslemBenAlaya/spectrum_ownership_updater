@@ -4,15 +4,35 @@ body {
     padding: 0;
     font-size: 15px;
     background: linear-gradient(to bottom right, #0a023b, #979bdf, #ffffff);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05); /* Subtle 3D effect for all texts */
 }
 
 header {
-    background: linear-gradient(45deg, #02001f, #02001f68);
-    color: white;
-    padding: 15px 0;
+    background: linear-gradient(45deg, #163775, #32528f, #ffffff); /* Deep and dynamic gradient */
+    color: rgb(216, 254, 255);
+    padding: 20px 0;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    border-bottom: 4px solid #1a2533;
+    font-size: 24px; /* Slightly larger font for prominence */
+    font-weight: bold; /* Bold font weight */
+    letter-spacing: 1px; /* Spacing between characters for a modern look */
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3); /* More depth with shadow */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* More pronounced shadow for depth */
+    border-bottom: 5px solid rgba(255, 255, 255, 0.1); /* Slightly transparent white for a modern touch */
+    position: relative; /* Positioning context for potential pseudo-elements */
+    overflow: hidden; /* Ensure any pseudo-elements don't overflow */
+
+    /* Adding a pseudo-element for an extra lighting effect on the header */
+    &:before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        z-index: -1;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), transparent, rgba(255, 255, 255, 0.2));
+        transform: rotate(30deg);
+    }
 }
 
 .container {
@@ -32,6 +52,7 @@ header {
 .form-group label {
     display: block;
     margin-bottom: 8px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Slight shadow for labels for depth */
 }
 
 textarea {
@@ -44,6 +65,7 @@ textarea {
     overflow: hidden;  /* Hide scrollbars */
     font-family: inherit; /* So it inherits the font of your website */
     font-size: inherit;  /* So it inherits the font size of your website */
+    transition: box-shadow 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
 }
 
 label {
@@ -57,6 +79,7 @@ input[type="file"] {
     width: 100%;
     padding: 15px;
     font-size: 10px;
+    text-shadow: 0px 0px 10px rgba(112, 192, 246, 0.5); /* Glowing text effect on focus */
     border: 1px solid #e0e0e0;
     border-radius: 4px;
     background: linear-gradient(45deg, #ffffff, #f6f6f6);
@@ -70,25 +93,73 @@ input[type="file"]:focus {
     transform: translateY(-3px);
 }
 
+/* Generic button styling */
 button {
-    padding: 15px 20px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
-    background: linear-gradient(45deg, #25007a, #25007a4d);
-    color: white;
+    border-radius: 5px;
     cursor: pointer;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2), -4px -4px 10px rgba(255, 255, 255, 0.7);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: 0.3s;
+    font-size: 16px;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for 3D effect */
+    position: relative; /* For adding pseudo-elements for the lighting effect */
+}
+
+button:before { /* Lighting effect on top-left corner */
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: 50%;
+    bottom: 50%;
+    border-top: 2px solid rgba(255, 255, 255, 0.5);
+    border-left: 2px solid rgba(255, 255, 255, 0.5);
+    border-right: 2px solid transparent;
+    border-bottom: 2px solid transparent;
 }
 
 button:hover {
-    transform: translateY(-2px);
-    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.7);
+    transform: translateY(-3px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2), 0 2px 5px rgba(255,255,255,0.2) inset;
 }
 
+/* Pressed Effect */
 button:active {
-    transform: translateY(0);
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2), -2px -2px 6px rgba(255, 255, 255, 0.7);
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Modify Button */
+#modify-btn {
+    background-image: linear-gradient(to right, #006803, #9ed0a0);
+    color: white;
+}
+
+/* Download Button */
+#download-btn {
+    background-image: linear-gradient(to right, #06007d, #95cefc);
+    color: white;
+}
+
+/* Reset Button */
+#reset-btn {
+    background-image: linear-gradient(to right, #a40000, #FF8A65);
+    color: white;
+}
+
+/* Center buttons */
+.btn-submit, .btn-download, .btn-reset {
+    text-align: center;
+}
+
+.btn-download, .btn-reset {
+    display: inline-block;
+    margin: 10px;
+}
+
+.container-for-download-reset {
+    text-align: center;
 }
 
 #progress-bar {
@@ -111,12 +182,13 @@ button:active {
 #progress-percentage {
     color: white;
     font-weight: bold;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2); /* A more pronounced shadow for the progress percentage for better visibility */
 }
 
 .btn-center {
     margin-top: 20px;
     text-align: center;
+    display: inline-block;
 }
 
 a#download-link {
@@ -141,6 +213,7 @@ a#download-link {
     border: 1px solid #ddd;
     padding: 12px 20px;
     text-align: left;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Shadow for table headers and cells */
 }
 
 #changes-table th {

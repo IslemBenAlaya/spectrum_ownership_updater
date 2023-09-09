@@ -39,10 +39,8 @@
                     <label for="column-title">Frequency range (MHz):</label>
                     <textarea id="column-title" placeholder="Enter frequency ranges, separated by commas, spaces, or new lines." rows="5" required></textarea>
                 </div>
-
-                <div class="btn-container">
+                <div class="btn-submit">
                     <button type="submit" id="modify-btn">Process the update</button>
-                    <button type="button" id="reset-btn">Reset</button>
                 </div>
             </fieldset>
         </form>
@@ -53,10 +51,20 @@
                 <span id="progress-percentage">0%</span>
             </div>
         </div>
-        <!-- Download button -->
-        <div class="btn-center">
-            <button onclick="document.getElementById('download-link').click();" id="download-btn">Download</button>
+
+        <!-- Download and reset buttons -->
+        <div class="container-for-download-reset">
+            <!-- Download button -->
+            <div class="btn-download">
+                <button onclick="document.getElementById('download-link').click();" id="download-btn">Download</button>
+            </div>
+            
+            <!-- Reset button -->
+            <div class="btn-reset">
+                <button type="button" id="reset-btn">Reset</button>
+            </div>
         </div>
+
         <!-- Hidden download link -->
         <a href="#" id="download-link" style="display:none" aria-hidden="true" download>Download Updated File</a>
         <div id="changes-table"></div>
