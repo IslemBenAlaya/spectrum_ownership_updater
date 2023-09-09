@@ -1,3 +1,20 @@
+// Code for textarea auto-resizing
+document.addEventListener('input', function (e) {
+    if (e.target.tagName.toLowerCase() === 'textarea') {
+        autoFitContent(e.target);
+    }
+});
+
+function autoFitContent(textarea) {
+    textarea.style.height = 'auto';  // Reset the height
+    textarea.style.height = (textarea.scrollHeight) + 'px';
+}
+
+document.querySelectorAll('textarea').forEach(function (textarea) {
+    autoFitContent(textarea);
+});
+
+// Your new code starts here
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('upload-form');
     const mainFileInput = document.getElementById('main-file');

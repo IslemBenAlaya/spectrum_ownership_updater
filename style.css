@@ -26,11 +26,24 @@ header {
 }
 
 .form-group {
-    margin-bottom: 25px;
-    background: linear-gradient(45deg, #fafafa, #e6e6e6);
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;  /* Allow vertical resizing only */
+    overflow: hidden;  /* Hide scrollbars */
+    font-family: inherit; /* So it inherits the font of your website */
+    font-size: inherit;  /* So it inherits the font size of your website */
 }
 
 label {

@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="btn-container">
-                    <button type="submit" id="modify-btn">Modify CSV</button>
+                    <button type="submit" id="modify-btn">Process the update</button>
                     <button type="button" id="reset-btn">Reset</button>
                 </div>
             </fieldset>
@@ -53,13 +53,13 @@
                 <span id="progress-percentage">0%</span>
             </div>
         </div>
-        <div id="changes-table"></div>
         <!-- Download button -->
         <div class="btn-center">
             <button onclick="document.getElementById('download-link').click();" id="download-btn">Download</button>
         </div>
         <!-- Hidden download link -->
         <a href="#" id="download-link" style="display:none" aria-hidden="true" download>Download Updated File</a>
+        <div id="changes-table"></div>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
