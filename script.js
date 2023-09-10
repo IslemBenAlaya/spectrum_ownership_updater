@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const file = mainFileInput.files[0];
         if (file) {
             Papa.parse(file, {
+                encoding: "utf-8",  // Specify UTF-8 encoding here
                 complete: function(results) {
                     parsedCSV = results.data;
                     modifyCSV();
@@ -92,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProgressBar(100);
 
         const csvString = Papa.unparse(parsedCSV);
-        const blob = new Blob([csvString], { type: 'text/csv' });
+        const blob = new Blob(["\uFEFF" + csvString], { type: 'text/csv;charset=utf-8;' });  // Add BOM for UTF-8
         const url = URL.createObjectURL(blob);
 
         downloadLink.href = url;
@@ -105,77 +106,94 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-function displayChangesInTable() {
-    const table = document.createElement('table');
-    const thead = document.createElement('thead');
-    const tbody = document.createElement('tbody');
-    const headerRow = document.createElement('tr');
-
-    ['Tier code', 'Frequency range (MHz)', 'Previous Holder', 'New Holder'].forEach(text => {
-        const th = document.createElement('th');
-        th.textContent = text;
-        headerRow.appendChild(th);
-    });
-
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
-    const tierGroups = {}; // For grouping rows by Tier code
-
-    changes.forEach(change => {
-        const tr = document.createElement('tr');
-        [change.rowTitle, change.columnTitle, change.oldValue, change.newValue].forEach(text => {
-            const td = document.createElement('td');
-            td.textContent = text;
-            tr.appendChild(td);
+    function displayChangesInTable() {
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        const tbody = document.createElement('tbody');
+        const headerRow = document.createElement('tr');
+    
+        ['Tier code', 'Frequency range (MHz)', 'Previous Holder', 'New Holder'].forEach(text => {
+            const th = document.createElement('th');
+            th.textContent = text;
+            headerRow.appendChild(th);
         });
-
-        if (!tierGroups[change.rowTitle]) {
-            tierGroups[change.rowTitle] = {
-                rows: [],
-                count: 0
-            };
-        }
-        
-        tierGroups[change.rowTitle].count++;
-        tierGroups[change.rowTitle].rows.push(tr);
-    });
-
-    Object.entries(tierGroups).forEach(([tierCode, groupData]) => {
-        const toggleButton = document.createElement('button');
-        toggleButton.textContent = `${tierCode}`;
-        toggleButton.addEventListener('click', () => {
-            groupData.rows.forEach(row => {
-                if (row.style.display === 'none') {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+    
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+    
+        const tierGroups = {}; // For grouping rows by Tier code
+        let totalCount = 0; // Initialize total count
+    
+        changes.forEach(change => {
+            const tr = document.createElement('tr');
+            tr.style.display = 'none'; // Hide rows by default
+    
+            [change.rowTitle, change.columnTitle, change.oldValue, change.newValue].forEach(text => {
+                const td = document.createElement('td');
+                td.textContent = text;
+                tr.appendChild(td);
             });
+    
+            totalCount++; // Increment the total count for every change
+    
+            if (!tierGroups[change.rowTitle]) {
+                tierGroups[change.rowTitle] = {
+                    rows: [],
+                    count: 0
+                };
+            }
+            
+            tierGroups[change.rowTitle].count++;
+            tierGroups[change.rowTitle].rows.push(tr);
         });
-
-        const tierCountRow = document.createElement('tr');
-        tierCountRow.innerHTML = `
-            <td>${tierCode} Count</td>
-            <td></td>
-            <td></td>
-            <td>${groupData.count}</td>
+    
+        Object.entries(tierGroups).forEach(([tierCode, groupData]) => {
+            const toggleButtonRow = document.createElement('tr');
+            const toggleButtonCell = document.createElement('td');
+            toggleButtonCell.colSpan = 4;
+    
+            const toggleButton = document.createElement('button');
+            toggleButton.textContent = `${tierCode}`;
+            toggleButton.addEventListener('click', () => {
+                groupData.rows.forEach(row => {
+                    if (row.style.display === 'none') {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+    
+            toggleButtonCell.appendChild(toggleButton);
+            toggleButtonRow.appendChild(toggleButtonCell);
+            tbody.appendChild(toggleButtonRow);
+    
+            const tierCountRow = document.createElement('tr');
+            tierCountRow.innerHTML = `
+                <td colspan="3">${tierCode} Count</td>
+                <td>${groupData.count}</td>
+            `;
+            
+            groupData.rows.forEach(row => tbody.appendChild(row));
+            tbody.appendChild(tierCountRow);
+        });
+    
+        // Add total count to the table at the end
+        const totalCountRow = document.createElement('tr');
+        totalCountRow.innerHTML = `
+            <td colspan="3">Total Count</td>
+            <td>${totalCount}</td>
         `;
-        tbody.appendChild(toggleButton);
-        
-        groupData.rows.forEach(row => tbody.appendChild(row));
-        tbody.appendChild(tierCountRow);
-    });
+        tbody.appendChild(totalCountRow); // Append the total count row to the tbody
 
-    table.appendChild(tbody);
-
-    const changesTableDiv = document.getElementById('changes-table');
-    if (changesTableDiv.firstChild) {
-        changesTableDiv.removeChild(changesTableDiv.firstChild);
+        table.appendChild(tbody);    
+        const changesTableDiv = document.getElementById('changes-table');
+        if (changesTableDiv.firstChild) {
+            changesTableDiv.removeChild(changesTableDiv.firstChild);
+        }
+        changesTableDiv.appendChild(table);
     }
-    changesTableDiv.appendChild(table);
-}
-
+    
     document.getElementById('reset-btn').addEventListener('click', () => {
         mainFileInput.value = '';
         newValueInput.value = '';
